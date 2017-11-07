@@ -1,0 +1,16 @@
+{
+  "name": "node-tablefortwo",
+  "version": "0.0.1",
+  "main": "app.coffee",
+  "scripts": {
+    "heroku-postbuild": "node-sass --output-style compressed -o web/css -r web/sass; coffee -c -o web/js web/coffee",
+    "start": "coffee app.coffee"
+  },
+  "author": "Matthew Huie",
+  "license": "ISC",
+  "dependencies": {
+    "coffeescript": "^2.0.2",
+    "express": "^4.16.2",
+    "node-sass": "^4.6.0"
+  }
+}
