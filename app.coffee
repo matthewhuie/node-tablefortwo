@@ -31,7 +31,7 @@ app.get '/venues/liked/:userid/with/:otheruserid', (req, res) ->
         _.contains _.pluck(parseSaved(JSON.parse data[1]), 'id'), value.id
 
 app.get '/venues/saved/:userid/with/:otheruserid', (req, res) ->
-  Promise.all [fsqRequest('lists/' + req.params.userid + '/todos', fsqRequest('lists/' + req.params.otheruserid + '/todos']
+  Promise.all [fsqRequest('lists/' + req.params.userid + '/todos'), fsqRequest('lists/' + req.params.otheruserid + '/todos')]
     .then (data) =>
       res.json _.filter parseSaved(JSON.parse data[0]), (value) ->
         _.contains _.pluck(parseSaved(JSON.parse data[1]), 'id'), value.id
