@@ -5,9 +5,9 @@ _ = require 'underscore'
 app = express()
 app.use express.static 'web'
 
-getVenues = (userid) ->
+fsqRequest = (endpoint) ->
   request
-    url: 'https://api.foursquare.com/v2/lists/' + userid + '/todos'
+    url: 'https://api.foursquare.com/v2/' + endpoint
     qs:
       client_id: process.env.FOURSQUARE_CLIENT_ID
       client_secret: process.env.FOURSQUARE_CLIENT_SECRET
@@ -24,8 +24,14 @@ parseSaved = (data) ->
   _.map data.response.list.listItems.items, (value) ->
     value.venue
 
-app.get '/venues/:userid/with/:otheruserid', (req, res) ->
-  Promise.all [getVenues(req.params.userid), getVenues(req.params.otheruserid)]
+app.get '/venues/liked/:userid/with/:otheruserid', (req, res) ->
+  Promise.all [fsqRequest('lists/' + req.params.userid + '/venuelikes'), fsqRequest('lists/' + req.params.otheruserid + '/venuelikes')]
+    .then (data) =>
+      res.json _.filter parseSaved(JSON.parse data[0]), (value) ->
+        _.contains _.pluck(parseSaved(JSON.parse data[1]), 'id'), value.id
+
+app.get '/venues/saved/:userid/with/:otheruserid', (req, res) ->
+  Promise.all [fsqRequest('lists/' + req.params.userid + '/todos', fsqRequest('lists/' + req.params.otheruserid + '/todos']
     .then (data) =>
       res.json _.filter parseSaved(JSON.parse data[0]), (value) ->
         _.contains _.pluck(parseSaved(JSON.parse data[1]), 'id'), value.id
