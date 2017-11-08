@@ -1,0 +1,41 @@
+body
+  margin: 0
+
+#nav
+  margin: 8px
+  position: absolute
+  top: 0
+  right: 0
+  display: flex
+  .nav-item
+    position: relative
+    font-family: 'Open Sans'
+    font-size: 0.65em
+    font-weight: bold
+    text-align: center
+    text-transform: uppercase
+    color: #FFF
+    margin: 8px
+    cursor: pointer
+  .nav-item:after
+    content: ''
+    height: 2px
+    width: 100%
+    position: absolute
+    bottom: -4px 
+    left: 0
+    background-color: #FFF
+    opacity: 0
+    transition: opacity 0.5s
+  .nav-item:hover:after
+    opacity: 0.9
+    transition: none
+
+#pbf
+  position: absolute
+  bottom: 0
+  left: 0
+  pointer-events: none
+
+.invert 
+  filter: invert(1)
